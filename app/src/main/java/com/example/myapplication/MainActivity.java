@@ -13,7 +13,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapplication.utils.FirestoreManager;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseApp;
 
 import java.util.Objects;
 
@@ -21,9 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
     private TextInputEditText emailEditText;
     private TextInputEditText passwordEditText;
+    private FirestoreManager firestoreManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -39,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         Button loginButton = findViewById(R.id.loginButton);
         TextView forgotPasswordTextView = findViewById(R.id.forgotPasswordTextView);
         TextView signUpTextView = findViewById(R.id.signUpTextView);
+
+        firestoreManager = FirestoreManager.getInstance();
 
         loginButton.setOnClickListener(v -> attemptLogin());
         
@@ -72,11 +79,16 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(this, getString(R.string.login_success_toast, email), Toast.LENGTH_SHORT).show();
-        
-        // Navigate to the new Establishment flip-card screen
-        Intent intent = new Intent(MainActivity.this, EstablishmentActivity.class);
-        startActivity(intent);
-        finish();
+        firestoreManager.loginUser(email, password)
+                .addOnSuccessListener(authResult -> {
+                    Toast.makeText(this, getString(R.string.login_success_toast, email), Toast.LENGTH_SHORT).show();
+                    // Navigate to the new Establishment flip-card screen
+                    Intent intent = new Intent(MainActivity.this, EstablishmentActivity.class);
+                    startActivity(intent);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(MainActivity.this, "Login Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 }
