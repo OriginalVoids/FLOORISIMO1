@@ -1,8 +1,7 @@
-
 package com.example.myapplication.utils;
 
-import com.example.myapplication.models.Establishment;
-import com.example.myapplication.repositories.EstablishmentRepository;
+import com.example.myapplication.activities.establishment.models.Establishment;
+import com.example.myapplication.activities.establishment.repositories.EstablishmentRepository;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthResult;
@@ -90,27 +89,27 @@ public class FirestoreManager {
         if (ref == null) return;
 
         if (establishment.getId() == null) {
-            for (Establishment e : EstablishmentRepository.getInstance().getEstablishmentList()) {
-                if (e.getName().equalsIgnoreCase(establishment.getName())) {
-                    establishment.setId(e.getId());
-                    break;
+            List<Establishment> currentList = EstablishmentRepository.getInstance().getEstablishmentList().getValue();
+            if (currentList != null) {
+                for (Establishment e : currentList) {
+                    if (e.getName().equalsIgnoreCase(establishment.getName())) {
+                        establishment.setId(e.getId());
+                        break;
+                    }
                 }
             }
         }
 
         if (establishment.getId() == null) {
-            ref.add(establishment).addOnSuccessListener(docRef -> {
-                establishment.setId(docRef.getId());
-                EstablishmentRepository.getInstance().addEstablishmentLocal(establishment);
-            });
+            ref.add(establishment).addOnSuccessListener(docRef -> loadUserData());
         } else {
-            ref.document(establishment.getId()).set(establishment).addOnSuccessListener(aVoid -> EstablishmentRepository.getInstance().addEstablishmentLocal(establishment));
+            ref.document(establishment.getId()).set(establishment).addOnSuccessListener(aVoid -> loadUserData());
         }
     }
 
     public void deleteEstablishment(Establishment establishment) {
         CollectionReference ref = getEstablishmentsRef();
         if (ref == null || establishment.getId() == null) return;
-        ref.document(establishment.getId()).delete().addOnSuccessListener(aVoid -> EstablishmentRepository.getInstance().removeEstablishmentLocal(establishment));
+        ref.document(establishment.getId()).delete().addOnSuccessListener(aVoid -> loadUserData());
     }
 }

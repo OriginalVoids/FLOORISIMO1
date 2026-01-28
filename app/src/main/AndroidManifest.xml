@@ -22,10 +22,10 @@
         </activity>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".EstablishmentActivity" />
-        <activity android:name=".CreateEstablishmentActivity" />
-        <activity android:name=".EstablishmentDetailsActivity" />
-        <activity android:name=".OrderTilesActivity" />
+        <activity android:name=".activities.establishment.EstablishmentActivity" />
+        <activity android:name=".activities.establishment.CreateEstablishmentActivity" />
+        <activity android:name=".activities.establishment.EstablishmentDetailsActivity" />
+        <activity android:name=".activities.client.OrderTilesActivity" />
     </application>
 
 </manifest>
