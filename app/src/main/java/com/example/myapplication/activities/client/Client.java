@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities.client;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +12,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapplication.R;
+import com.example.myapplication.utils.FirestoreManager;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
@@ -19,6 +21,7 @@ import java.util.Objects;
 public class SignUpActivity extends AppCompatActivity {
 
     private TextInputEditText fullNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
+    private FirestoreManager firestoreManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,8 @@ public class SignUpActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        firestoreManager = FirestoreManager.getInstance();
 
         fullNameEditText = findViewById(R.id.fullNameEditText);
         emailEditText = findViewById(R.id.signUpEmailEditText);
@@ -66,7 +71,11 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(this, "Account created for " + name, Toast.LENGTH_SHORT).show();
-        finish();
+        firestoreManager.createUser(email, pass)
+                .addOnSuccessListener(authResult -> {
+                    Toast.makeText(this, "Account created for " + name, Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> Toast.makeText(SignUpActivity.this, "Sign-up failed: " + e.getMessage(), Toast.LENGTH_LONG).show());
     }
 }

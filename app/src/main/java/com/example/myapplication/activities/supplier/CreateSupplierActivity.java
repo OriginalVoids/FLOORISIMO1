@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities.supplier;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapplication.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;

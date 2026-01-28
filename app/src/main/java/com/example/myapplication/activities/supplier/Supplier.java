@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities.supplier;
 
 import java.io.Serializable;
 

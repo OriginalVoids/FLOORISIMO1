@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities.establishment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.R;
 
 import java.util.List;
 
