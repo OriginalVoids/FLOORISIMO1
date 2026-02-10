@@ -27,8 +27,6 @@ import com.example.myapplication.activities.establishment.models.Establishment;
 import com.example.myapplication.activities.establishment.repositories.EstablishmentRepository;
 import com.example.myapplication.utils.FirestoreManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +44,6 @@ public class EstablishmentActivity extends AppCompatActivity {
     private TextView paneInitialsTextView, paneEstNameLeft;
     private TextView paneTextType, paneTextLocation, paneTextFloors, paneTextTiles;
     private TextView paneTextWeaknesses, paneTextTileTypes, paneTextSuppliers;
-    private TextView titleTextView;
 
     private static final String MALL_IMAGE = "https://images.ctfassets.net/z78475or6i3d/4ncEpBqUYr2OOpGsYVPv9B/ffd4235f9b0f702e904df616eccfe76d/Urban_Strip_Mall_Retail_to_Housing_Concept_Plan.jpg";
     private static final String OFFICE_IMAGE = "https://i.pinimg.com/736x/bd/d6/f5/bdd6f5247dbea0e5eedf33fe8cc491ee--office-layout-plan-office-floor-plan.jpg";
@@ -78,7 +75,6 @@ public class EstablishmentActivity extends AppCompatActivity {
             return insets;
         });
 
-        titleTextView = findViewById(R.id.titleTextView);
         detailPane = findViewById(R.id.detailPane);
         placeholderTextView = findViewById(R.id.placeholderTextView);
         paneLogoImageView = findViewById(R.id.paneLogoImageView);
@@ -125,23 +121,6 @@ public class EstablishmentActivity extends AppCompatActivity {
             Intent intent = new Intent(EstablishmentActivity.this, CreateEstablishmentActivity.class);
             createLauncher.launch(intent);
         });
-
-        updateTitle();
-    }
-
-    private void updateTitle() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            String email = user.getEmail();
-            if (email != null && !email.isEmpty()) {
-                String username = email.split("@")[0];
-                titleTextView.setText("FLOORISIMO - " + username + "'s Establishments");
-            } else {
-                titleTextView.setText("FLOORISIMO - My Establishments");
-            }
-        } else {
-            titleTextView.setText("FLOORISIMO - My Establishments");
-        }
     }
 
     private void showPlaceholder() {

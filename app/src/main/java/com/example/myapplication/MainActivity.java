@@ -13,11 +13,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.myapplication.activities.ForgotPasswordActivity;
-import com.example.myapplication.activities.SignUpActivity;
-import com.example.myapplication.activities.establishment.EstablishmentActivity;
 import com.example.myapplication.utils.FirestoreManager;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseApp;
 
 import java.util.Objects;
 
@@ -84,14 +82,13 @@ public class MainActivity extends AppCompatActivity {
         firestoreManager.loginUser(email, password)
                 .addOnSuccessListener(authResult -> {
                     Toast.makeText(this, getString(R.string.login_success_toast, email), Toast.LENGTH_SHORT).show();
-                    firestoreManager.loadUserData().addOnSuccessListener(aVoid -> {
-                        Intent intent = new Intent(MainActivity.this, EstablishmentActivity.class);
-                        startActivity(intent);
-                        finish();
-                    });
+                    // Navigate to the new Establishment flip-card screen
+                    Intent intent = new Intent(MainActivity.this, EstablishmentActivity.class);
+                    startActivity(intent);
+                    finish();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(MainActivity.this, "Login Failed: Email or password are incorrect." , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Login Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 }

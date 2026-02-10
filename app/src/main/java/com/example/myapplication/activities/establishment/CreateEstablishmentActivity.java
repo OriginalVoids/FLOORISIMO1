@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
-import android.widget.RadioButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -18,9 +17,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
-import com.example.myapplication.activities.establishment.models.Establishment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -30,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class CreateEstablishmentActivity extends AppCompatActivity {
 
@@ -40,7 +36,6 @@ public class CreateEstablishmentActivity extends AppCompatActivity {
     private RadioGroup radioGroupType;
     private ImageView imgLogoPreview;
     private Uri selectedLogoUri;
-    private Establishment existingEstablishment;
 
     private final ActivityResultLauncher<String> logoPickerLauncher = registerForActivityResult(
             new ActivityResultContracts.GetContent(),
@@ -64,15 +59,6 @@ public class CreateEstablishmentActivity extends AppCompatActivity {
             return insets;
         });
 
-        initializeViews();
-
-        if (getIntent().hasExtra("establishment")) {
-            existingEstablishment = (Establishment) getIntent().getSerializableExtra("establishment");
-            populateFields(existingEstablishment);
-        }
-    }
-
-    private void initializeViews() {
         imgLogoPreview = findViewById(R.id.imgLogoPreview);
         Button btnUploadLogo = findViewById(R.id.btnUploadLogo);
         btnUploadLogo.setOnClickListener(v -> logoPickerLauncher.launch("image/*"));
@@ -107,52 +93,6 @@ public class CreateEstablishmentActivity extends AppCompatActivity {
 
         Button btnCreate = findViewById(R.id.btnCreate);
         btnCreate.setOnClickListener(v -> saveEstablishment());
-    }
-
-    private void populateFields(Establishment est) {
-        editName.setText(est.getName());
-        editFloors.setText(String.valueOf(est.getNumberOfFloors()));
-        editTiles.setText(String.valueOf(est.getNumberOfTiles()));
-        editCountry.setText(est.getCountry());
-        editWeaknesses.setText(est.getStructuralWeaknesses().stream().collect(Collectors.joining(", ")));
-
-        if (est.getLogoUri() != null) {
-            selectedLogoUri = Uri.parse(est.getLogoUri());
-            Glide.with(this).load(selectedLogoUri).into(imgLogoPreview);
-        }
-
-        switch (est.getEstablishmentType()) {
-            case "Mall":
-                ((RadioButton) findViewById(R.id.radioMall)).setChecked(true);
-                break;
-            case "Restaurant":
-                ((RadioButton) findViewById(R.id.radioRestaurant)).setChecked(true);
-                break;
-            default:
-                ((RadioButton) findViewById(R.id.radioOffice)).setChecked(true);
-                break;
-        }
-
-        for (String type : est.getPreferredTileTypes()) {
-            if (type.equals("Sensing")) {
-                checkSensing.setChecked(true);
-                editSensingSupplier.setText(est.getPreferredSuppliers().get("Sensing"));
-            }
-            if (type.equals("Routing")) {
-                checkRouting.setChecked(true);
-                editRoutingSupplier.setText(est.getPreferredSuppliers().get("Routing"));
-            }
-            if (type.equals("Pressurized")) {
-                checkPressurized.setChecked(true);
-                editPressurizedSupplier.setText(est.getPreferredSuppliers().get("Pressurized"));
-            }
-            if (type.equals("Energy Producing")) {
-                checkEnergy.setChecked(true);
-                editEnergySupplier.setText(est.getPreferredSuppliers().get("Energy Producing"));
-            }
-        }
-
-        ((Button)findViewById(R.id.btnCreate)).setText("Update Establishment");
     }
 
     private void saveEstablishment() {
@@ -200,10 +140,6 @@ public class CreateEstablishmentActivity extends AppCompatActivity {
         String logoUriString = selectedLogoUri != null ? selectedLogoUri.toString() : null;
 
         Establishment newEst = new Establishment(name, floors, tiles, weaknesses, country, tileTypes, suppliers, type, logoUriString);
-
-        if (existingEstablishment != null) {
-            newEst.setId(existingEstablishment.getId());
-        }
 
         Intent data = new Intent();
         data.putExtra("new_establishment", newEst);
