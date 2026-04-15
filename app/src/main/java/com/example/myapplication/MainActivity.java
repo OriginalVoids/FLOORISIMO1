@@ -14,10 +14,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.myapplication.activities.ForgotPasswordActivity;
+import com.example.myapplication.activities.SignUpActivity;
 import com.example.myapplication.activities.establishment.EstablishmentActivity;
 import com.example.myapplication.utils.FirestoreManager;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.FirebaseApp;
 
 import java.util.Objects;
 
@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         signUpTextView.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, com.example.myapplication.SignUpActivity.class);
+            Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
     }

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor">
+
+    <!-- Selection View -->
+    <LinearLayout
+        android:id="@+id/selectionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Establishment Management"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/primaryColor"
+            android:layout_marginBottom="32dp"/>
+
+        <Button
+            android:id="@+id/btnModeCreate"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="Create New Establishment"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/btnModeEdit"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="Edit Existing Establishment"
+            android:textAllCaps="false"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:id="@+id/editPickerContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="24dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Establishment to Edit:"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerEstablishments"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@android:drawable/btn_dropdown"/>
+            
+            <Button
+                android:id="@+id/btnConfirmSelection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:text="Select"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Form View -->
+    <ScrollView
+        android:id="@+id/formScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/textFormTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Establishment Survey"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Logo Upload Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Establishment Logo"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="24dp">
+
+                <ImageView
+                    android:id="@+id/imgLogoPreview"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="#DDD"
+                    android:scaleType="centerCrop"
+                    android:src="@android:drawable/ic_menu_gallery" />
+
+                <Button
+                    android:id="@+id/btnUploadLogo"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Upload Logo" />
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Establishment Name">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Establishment Type"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton android:id="@+id/radioMall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mall" />
+                <RadioButton android:id="@+id/radioOffice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Office" />
+                <RadioButton android:id="@+id/radioRestaurant" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Restaurant" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:hint="Floors">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editFloors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:hint="Total Tiles">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTiles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Country">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Structural Weaknesses (comma separated)">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editWeaknesses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Preferred Tile Types &amp; Suppliers"
+                android:textStyle="bold" />
+
+            <!-- Sensing -->
+            <CheckBox android:id="@+id/checkSensing" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sensing" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputSensingSupplier"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Sensing Supplier"
+                android:visibility="gone">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/editSensingSupplier" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Routing -->
+            <CheckBox android:id="@+id/checkRouting" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Routing" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputRoutingSupplier"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Routing Supplier"
+                android:visibility="gone">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/editRoutingSupplier" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Pressurized -->
+            <CheckBox android:id="@+id/checkPressurized" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pressurized" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputPressurizedSupplier"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Pressurized Supplier"
+                android:visibility="gone">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/editPressurizedSupplier" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Energy Producing -->
+            <CheckBox android:id="@+id/checkEnergy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Energy Producing" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputEnergySupplier"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Energy Supplier"
+                android:visibility="gone">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/editEnergySupplier" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="32dp"
+                android:text="Save Establishment"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,8 @@
 package com.example.myapplication.activities.establishment.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,10 +12,10 @@ public class Establishment implements Serializable {
     private String name;
     private int numberOfFloors;
     private int numberOfTiles;
-    private List<String> structuralWeaknesses;
+    private List<String> structuralWeaknesses = new ArrayList<>();
     private String country;
-    private List<String> preferredTileTypes;
-    private Map<String, String> preferredSuppliers;
+    private List<String> preferredTileTypes = new ArrayList<>();
+    private Map<String, String> preferredSuppliers = new HashMap<>();
     private String establishmentType;
     private String logoUri;
 
@@ -23,10 +25,10 @@ public class Establishment implements Serializable {
         this.name = name;
         this.numberOfFloors = numberOfFloors;
         this.numberOfTiles = numberOfTiles;
-        this.structuralWeaknesses = structuralWeaknesses;
+        this.structuralWeaknesses = structuralWeaknesses != null ? structuralWeaknesses : new ArrayList<>();
         this.country = country;
-        this.preferredTileTypes = preferredTileTypes;
-        this.preferredSuppliers = preferredSuppliers;
+        this.preferredTileTypes = preferredTileTypes != null ? preferredTileTypes : new ArrayList<>();
+        this.preferredSuppliers = preferredSuppliers != null ? preferredSuppliers : new HashMap<>();
         this.establishmentType = establishmentType;
         this.logoUri = logoUri;
     }
@@ -68,7 +70,7 @@ public class Establishment implements Serializable {
     }
 
     public void setStructuralWeaknesses(List<String> structuralWeaknesses) {
-        this.structuralWeaknesses = structuralWeaknesses;
+        this.structuralWeaknesses = structuralWeaknesses != null ? structuralWeaknesses : new ArrayList<>();
     }
 
     public String getCountry() {
@@ -84,7 +86,7 @@ public class Establishment implements Serializable {
     }
 
     public void setPreferredTileTypes(List<String> preferredTileTypes) {
-        this.preferredTileTypes = preferredTileTypes;
+        this.preferredTileTypes = preferredTileTypes != null ? preferredTileTypes : new ArrayList<>();
     }
 
     public Map<String, String> getPreferredSuppliers() {
@@ -92,7 +94,7 @@ public class Establishment implements Serializable {
     }
 
     public void setPreferredSuppliers(Map<String, String> preferredSuppliers) {
-        this.preferredSuppliers = preferredSuppliers;
+        this.preferredSuppliers = preferredSuppliers != null ? preferredSuppliers : new HashMap<>();
     }
 
     public String getEstablishmentType() {

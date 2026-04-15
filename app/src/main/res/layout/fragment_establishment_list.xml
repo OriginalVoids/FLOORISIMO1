@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <!-- Master Pane: List of Establishments -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/establishmentRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="4dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#DDD" />
+
+        <!-- Detail Pane: Establishment Info -->
+        <LinearLayout
+            android:id="@+id/detailPane"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2.2"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <!-- Detail Left: Logo/Initials -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#F8F9FA"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <FrameLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="24dp">
+
+                    <ImageView
+                        android:id="@+id/paneLogoImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        android:contentDescription="Establishment Logo" />
+
+                    <TextView
+                        android:id="@+id/paneInitialsTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/primaryColor"
+                        android:gravity="center"
+                        android:text="TMP"
+                        android:textColor="@color/white"
+                        android:textSize="32sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/paneEstNameLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="Establishment Name"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Detail Right: Info -->
+            <ScrollView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Building Stats"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView android:id="@+id/paneTextType" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Type: Mall" android:textSize="13sp"/>
+                    <TextView android:id="@+id/paneTextLocation" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Country: USA" android:textSize="13sp"/>
+                    <TextView android:id="@+id/paneTextFloors" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Floors: 5" android:textSize="13sp"/>
+                    <TextView android:id="@+id/paneTextTiles" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Tiles: 1200" android:textSize="13sp"/>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEE" android:layout_marginVertical="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Weaknesses"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <TextView android:id="@+id/paneTextWeaknesses" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="None" android:textSize="13sp"/>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEE" android:layout_marginVertical="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tiles &amp; Suppliers"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <TextView android:id="@+id/paneTextTileTypes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Types: Sensing" android:textSize="13sp"/>
+                    <TextView android:id="@+id/paneTextSuppliers" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Suppliers..." android:textSize="13sp"/>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEE" android:layout_marginVertical="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Establishment Plan"
+                        android:textColor="@color/primaryColor"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/panePlanImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:background="#EEE"
+                        android:contentDescription="Establishment Plan Image" />
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <!-- Placeholder when no item is selected -->
+        <TextView
+            android:id="@+id/placeholderTextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2.2"
+            android:gravity="center"
+            android:text="Select an establishment to view details"
+            android:textColor="@color/primaryLightColor"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

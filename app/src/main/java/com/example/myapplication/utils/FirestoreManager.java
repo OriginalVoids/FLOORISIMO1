@@ -35,15 +35,22 @@ public class FirestoreManager {
         return instance;
     }
 
-    private String getUserId() {
+    public String getUserId() {
         return auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
     }
 
-    public Task<AuthResult> createUser(String email, String password) {
+    public Task<DocumentSnapshot> getUserDetails() {
+        String uid = getUserId();
+        if (uid == null) return Tasks.forException(new Exception("Not logged in"));
+        return db.collection("users").document(uid).get();
+    }
+
+    public Task<AuthResult> createUser(String name, String email, String password) {
         return auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
             FirebaseUser user = authResult.getUser();
             if (user != null) {
                 Map<String, Object> userData = new HashMap<>();
+                userData.put("name", name);
                 userData.put("email", email);
                 db.collection("users").document(user.getUid()).set(userData);
             }

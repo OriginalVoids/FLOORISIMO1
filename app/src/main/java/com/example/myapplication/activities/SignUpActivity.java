@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +12,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapplication.R;
+import com.example.myapplication.utils.FirestoreManager;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
@@ -53,20 +55,32 @@ public class SignUpActivity extends AppCompatActivity {
             fullNameEditText.setError("Name is required");
             return;
         }
-        if (!email.contains("@")) {
-            emailEditText.setError(getString(R.string.error_invalid_email));
+        if (TextUtils.isEmpty(email) || !email.contains("@")) {
+            emailEditText.setError("Invalid email");
             return;
         }
         if (TextUtils.isEmpty(pass)) {
-            passwordEditText.setError(getString(R.string.error_password_required));
+            passwordEditText.setError("Password required");
+            return;
+        }
+        if (pass.length() < 6) {
+            passwordEditText.setError("Password must be at least 6 characters");
             return;
         }
         if (!pass.equals(confirmPass)) {
-            confirmPasswordEditText.setError(getString(R.string.error_passwords_dont_match));
+            confirmPasswordEditText.setError("Passwords don't match");
             return;
         }
 
-        Toast.makeText(this, "Account created for " + name, Toast.LENGTH_SHORT).show();
-        finish();
+        FirestoreManager.getInstance().createUser(name, email, pass)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(SignUpActivity.this, "Account created for " + name, Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        String errorMessage = task.getException() != null ? task.getException().getMessage() : "Registration failed";
+                        Toast.makeText(SignUpActivity.this, "Error: " + errorMessage, Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }
