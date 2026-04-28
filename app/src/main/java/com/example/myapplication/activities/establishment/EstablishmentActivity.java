@@ -9,8 +9,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activities.establishment.adapters.EstablishmentPagerAdapter;
 import com.example.myapplication.activities.establishment.models.Establishment;
 import com.example.myapplication.fragments.CreateEstablishmentFragment;
 import com.example.myapplication.fragments.EstablishmentListFragment;
@@ -27,6 +30,8 @@ public class EstablishmentActivity extends AppCompatActivity implements
     private FirestoreManager firestoreManager;
     private TextView greetingTextView;
     private BottomNavigationView bottomNavigationView;
+    private ViewPager2 viewPager;
+    private EstablishmentViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,8 @@ public class EstablishmentActivity extends AppCompatActivity implements
         firestoreManager = FirestoreManager.getInstance();
         firestoreManager.loadUserData();
 
+        viewModel = new ViewModelProvider(this).get(EstablishmentViewModel.class);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.topBar), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(0, systemBars.top, 0, 0);
@@ -46,39 +53,45 @@ public class EstablishmentActivity extends AppCompatActivity implements
         greetingTextView = findViewById(R.id.greetingTextView);
         loadUserGreeting();
 
+        viewPager = findViewById(R.id.viewPager);
+        EstablishmentPagerAdapter adapter = new EstablishmentPagerAdapter(this);
+        viewPager.setAdapter(adapter);
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnItemSelectedListener(item -> handleNavigation(item.getItemId()));
+        
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                int selectedId = -1;
+                switch (position) {
+                    case 0: selectedId = R.id.nav_establishments; break;
+                    case 1: selectedId = R.id.nav_create; break;
+                    case 2: selectedId = R.id.nav_placeholder; break;
+                    case 3: selectedId = R.id.nav_profile; break;
+                }
+                if (selectedId != -1 && bottomNavigationView.getSelectedItemId() != selectedId) {
+                    bottomNavigationView.setSelectedItemId(selectedId);
+                }
+            }
+        });
 
-        // Set initial fragment
-        if (savedInstanceState == null) {
-            switchFragment(new EstablishmentListFragment());
-        }
-    }
-
-    private boolean handleNavigation(int itemId) {
-        Fragment selectedFragment = null;
-
-        if (itemId == R.id.nav_establishments) {
-            selectedFragment = new EstablishmentListFragment();
-        } else if (itemId == R.id.nav_create) {
-            selectedFragment = new CreateEstablishmentFragment();
-        } else if (itemId == R.id.nav_placeholder) {
-            selectedFragment = new PlaceholderFragment();
-        } else if (itemId == R.id.nav_profile) {
-            selectedFragment = new ProfileFragment();
-        }
-
-        if (selectedFragment != null) {
-            switchFragment(selectedFragment);
-            return true;
-        }
-        return false;
-    }
-
-    private void switchFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_establishments) {
+                viewPager.setCurrentItem(0, true);
+                return true;
+            } else if (itemId == R.id.nav_create) {
+                viewPager.setCurrentItem(1, true);
+                return true;
+            } else if (itemId == R.id.nav_placeholder) {
+                viewPager.setCurrentItem(2, true);
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                viewPager.setCurrentItem(3, true);
+                return true;
+            }
+            return false;
+        });
     }
 
     private void loadUserGreeting() {
@@ -96,24 +109,13 @@ public class EstablishmentActivity extends AppCompatActivity implements
 
     @Override
     public void onEditEstablishment(Establishment establishment) {
-        // Switch to create/edit fragment with data
-        Fragment editFragment = CreateEstablishmentFragment.newInstance(establishment);
-        
-        // Temporarily disable listener so setSelectedItemId doesn't trigger a new (empty) fragment
-        bottomNavigationView.setOnItemSelectedListener(null);
-        bottomNavigationView.setSelectedItemId(R.id.nav_create);
-        bottomNavigationView.setOnItemSelectedListener(item -> handleNavigation(item.getItemId()));
-
-        switchFragment(editFragment);
+        viewModel.selectEstablishment(establishment);
+        viewPager.setCurrentItem(1);
     }
 
     @Override
     public void onEstablishmentSaved() {
-        // Switch back to list fragment
-        bottomNavigationView.setOnItemSelectedListener(null);
-        bottomNavigationView.setSelectedItemId(R.id.nav_establishments);
-        bottomNavigationView.setOnItemSelectedListener(item -> handleNavigation(item.getItemId()));
-
-        switchFragment(new EstablishmentListFragment());
+        viewModel.selectEstablishment(null); // Clear selection after saving
+        viewPager.setCurrentItem(0);
     }
 }

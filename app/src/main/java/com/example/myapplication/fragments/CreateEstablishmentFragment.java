@@ -20,8 +20,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activities.establishment.EstablishmentViewModel;
 import com.example.myapplication.activities.establishment.models.Establishment;
 import com.example.myapplication.activities.establishment.repositories.EstablishmentRepository;
 import com.example.myapplication.utils.FirestoreManager;
@@ -45,6 +47,7 @@ public class CreateEstablishmentFragment extends Fragment {
     private Uri selectedLogoUri;
     private Establishment existingEstablishment;
     private TextView textFormTitle;
+    private EstablishmentViewModel viewModel;
 
     private LinearLayout selectionContainer, editPickerContainer;
     private View formScrollView;
@@ -73,6 +76,8 @@ public class CreateEstablishmentFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_establishment, container, false);
+
+        viewModel = new ViewModelProvider(requireActivity()).get(EstablishmentViewModel.class);
 
         // UI References
         selectionContainer = view.findViewById(R.id.selectionContainer);
@@ -129,6 +134,13 @@ public class CreateEstablishmentFragment extends Fragment {
         });
 
         btnSave.setOnClickListener(v -> saveEstablishment());
+
+        // Observe ViewModel for establishment to edit
+        viewModel.getSelectedEstablishment().observe(getViewLifecycleOwner(), establishment -> {
+            if (establishment != null) {
+                showForm(establishment);
+            }
+        });
 
         // Check if opened with specific establishment (direct edit from list)
         if (getArguments() != null) {
