@@ -46,14 +46,22 @@ public class FirestoreManager {
     }
 
     public Task<AuthResult> createUser(String name, String email, String password) {
-        return auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+        return auth.createUserWithEmailAndPassword(email, password).continueWithTask(task -> {
+            if (!task.isSuccessful()) {
+                Exception e = task.getException() != null ? task.getException() : new Exception("Registration failed");
+                return Tasks.forException(e);
+            }
+            
+            AuthResult authResult = task.getResult();
             FirebaseUser user = authResult.getUser();
             if (user != null) {
                 Map<String, Object> userData = new HashMap<>();
                 userData.put("name", name);
                 userData.put("email", email);
-                db.collection("users").document(user.getUid()).set(userData);
+                return db.collection("users").document(user.getUid()).set(userData)
+                        .continueWith(setTask -> authResult);
             }
+            return Tasks.forResult(authResult);
         });
     }
 

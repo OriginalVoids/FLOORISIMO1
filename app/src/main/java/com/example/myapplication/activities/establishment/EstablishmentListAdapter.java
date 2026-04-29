@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 
+import com.example.myapplication.activities.establishment.models.Establishment;
+
 import java.util.List;
 
 public class EstablishmentListAdapter extends RecyclerView.Adapter<EstablishmentListAdapter.ViewHolder> {

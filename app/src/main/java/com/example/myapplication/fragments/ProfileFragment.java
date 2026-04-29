@@ -16,10 +16,11 @@ import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.utils.FirestoreManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ProfileFragment extends Fragment {
 
-    private TextView textProfileName, textProfileEmail;
+    private TextView textProfileEmail, textEstablishmentCount;
     private FirestoreManager firestoreManager;
 
     @Nullable
@@ -28,8 +29,8 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         firestoreManager = FirestoreManager.getInstance();
-        textProfileName = view.findViewById(R.id.textProfileName);
         textProfileEmail = view.findViewById(R.id.textProfileEmail);
+        textEstablishmentCount = view.findViewById(R.id.textEstablishmentCount);
         Button btnLogout = view.findViewById(R.id.btnLogout);
 
         loadUserData();
@@ -40,12 +41,21 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadUserData() {
-        firestoreManager.getUserDetails().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
-                textProfileName.setText(documentSnapshot.getString("name"));
-                textProfileEmail.setText(documentSnapshot.getString("email"));
-            }
-        });
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            textProfileEmail.setText(currentUser.getEmail());
+        }
+
+        // Use the repository to get the count of establishments
+        com.example.myapplication.activities.establishment.repositories.EstablishmentRepository.getInstance()
+                .getEstablishmentList()
+                .observe(getViewLifecycleOwner(), establishments -> {
+                    if (establishments != null) {
+                        textEstablishmentCount.setText("Establishments: " + establishments.size());
+                    } else {
+                        textEstablishmentCount.setText("Establishments: 0");
+                    }
+                });
     }
 
     private void logout() {
