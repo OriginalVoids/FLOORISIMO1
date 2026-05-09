@@ -8,15 +8,11 @@
     <string name="error_invalid_email">Please enter a valid email (must contain @)</string>
     <string name="error_password_required">Password is required</string>
     <string name="login_success_toast">Logging in as %1$s</string>
-    
-    <!-- Sign Up Strings -->
     <string name="sign_up_title">Create Account</string>
     <string name="full_name_hint">Full Name</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="sign_up_button_text">Sign Up</string>
     <string name="error_passwords_dont_match">Passwords do not match</string>
-    
-    <!-- Forgot Password Strings -->
     <string name="forgot_password_title">Reset Password</string>
     <string name="reset_password_instruction">Enter your email address and we\'ll send you instructions to reset your password.</string>
     <string name="send_reset_link_button">Send Reset Link</string>

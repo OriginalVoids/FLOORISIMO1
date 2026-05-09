@@ -2,26 +2,20 @@ package com.example.myapplication.activities.establishment;
 
 import android.os.Bundle;
 import android.widget.TextView;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
-
 import com.example.myapplication.R;
 import com.example.myapplication.activities.establishment.adapters.EstablishmentPagerAdapter;
 import com.example.myapplication.activities.establishment.models.Establishment;
 import com.example.myapplication.fragments.CreateEstablishmentFragment;
 import com.example.myapplication.fragments.EstablishmentListFragment;
-import com.example.myapplication.fragments.PlaceholderFragment;
-import com.example.myapplication.fragments.ProfileFragment;
 import com.example.myapplication.utils.FirestoreManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 public class EstablishmentActivity extends AppCompatActivity implements 
         EstablishmentListFragment.OnEstablishmentEditListener, 
@@ -38,30 +32,26 @@ public class EstablishmentActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_establishment);
-
         firestoreManager = FirestoreManager.getInstance();
         firestoreManager.loadUserData();
-
         viewModel = new ViewModelProvider(this).get(EstablishmentViewModel.class);
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.topBar), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(0, systemBars.top, 0, 0);
             return insets;
         });
-
         greetingTextView = findViewById(R.id.greetingTextView);
         loadUserGreeting();
-
         viewPager = findViewById(R.id.viewPager);
         EstablishmentPagerAdapter adapter = new EstablishmentPagerAdapter(this);
         viewPager.setAdapter(adapter);
-
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
+                if (position != 1) {
+                    viewModel.selectEstablishment(null);
+                }
                 int selectedId = -1;
                 switch (position) {
                     case 0: selectedId = R.id.nav_establishments; break;
@@ -74,9 +64,11 @@ public class EstablishmentActivity extends AppCompatActivity implements
                 }
             }
         });
-
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
+            if (itemId != R.id.nav_create) {
+                viewModel.selectEstablishment(null);
+            }
             if (itemId == R.id.nav_establishments) {
                 viewPager.setCurrentItem(0, true);
                 return true;
@@ -115,7 +107,7 @@ public class EstablishmentActivity extends AppCompatActivity implements
 
     @Override
     public void onEstablishmentSaved() {
-        viewModel.selectEstablishment(null); // Clear selection after saving
+        viewModel.selectEstablishment(null);
         viewPager.setCurrentItem(0);
     }
 }

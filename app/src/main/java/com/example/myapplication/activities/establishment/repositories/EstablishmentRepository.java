@@ -2,9 +2,7 @@ package com.example.myapplication.activities.establishment.repositories;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import com.example.myapplication.activities.establishment.models.Establishment;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -5,17 +5,14 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.example.myapplication.R;
 import com.example.myapplication.utils.FirestoreManager;
 import com.google.android.material.textfield.TextInputEditText;
-
 import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -27,20 +24,17 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up);
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         fullNameEditText = findViewById(R.id.fullNameEditText);
         emailEditText = findViewById(R.id.signUpEmailEditText);
         passwordEditText = findViewById(R.id.signUpPasswordEditText);
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
         Button signUpButton = findViewById(R.id.signUpButton);
         TextView backToLogin = findViewById(R.id.backToLoginTextView);
-
         signUpButton.setOnClickListener(v -> attemptSignUp());
         backToLogin.setOnClickListener(v -> finish());
     }
@@ -50,7 +44,6 @@ public class SignUpActivity extends AppCompatActivity {
         String email = Objects.requireNonNull(emailEditText.getText()).toString().trim();
         String pass = Objects.requireNonNull(passwordEditText.getText()).toString().trim();
         String confirmPass = Objects.requireNonNull(confirmPasswordEditText.getText()).toString().trim();
-
         if (TextUtils.isEmpty(name)) {
             fullNameEditText.setError("Name is required");
             return;
@@ -71,7 +64,6 @@ public class SignUpActivity extends AppCompatActivity {
             confirmPasswordEditText.setError("Passwords don't match");
             return;
         }
-
         FirestoreManager.getInstance().createUser(name, email, pass)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

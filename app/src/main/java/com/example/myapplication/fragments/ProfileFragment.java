@@ -7,11 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.utils.FirestoreManager;
@@ -27,16 +25,12 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
         firestoreManager = FirestoreManager.getInstance();
         textProfileEmail = view.findViewById(R.id.textProfileEmail);
         textEstablishmentCount = view.findViewById(R.id.textEstablishmentCount);
         Button btnLogout = view.findViewById(R.id.btnLogout);
-
         loadUserData();
-
         btnLogout.setOnClickListener(v -> logout());
-
         return view;
     }
 
@@ -45,8 +39,6 @@ public class ProfileFragment extends Fragment {
         if (currentUser != null) {
             textProfileEmail.setText(currentUser.getEmail());
         }
-
-        // Use the repository to get the count of establishments
         com.example.myapplication.activities.establishment.repositories.EstablishmentRepository.getInstance()
                 .getEstablishmentList()
                 .observe(getViewLifecycleOwner(), establishments -> {

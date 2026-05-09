@@ -16,17 +16,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import com.example.myapplication.R;
 import com.example.myapplication.utils.CheckupReceiver;
-
 import java.util.Calendar;
 
 public class PlaceholderFragment extends Fragment {
@@ -49,12 +46,10 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_placeholder, container, false);
-
         timePicker = view.findViewById(R.id.timePicker);
         Button btnSchedule = view.findViewById(R.id.btnSchedule);
         textStatus = view.findViewById(R.id.textStatus);
         textCountdown = view.findViewById(R.id.textCountdown);
-
         btnSchedule.setOnClickListener(v -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
@@ -66,30 +61,24 @@ public class PlaceholderFragment extends Fragment {
                 scheduleCheckup();
             }
         });
-
         return view;
     }
 
     private void scheduleCheckup() {
         int hour = timePicker.getHour();
         int minute = timePicker.getMinute();
-
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-
         if (calendar.before(Calendar.getInstance())) {
             calendar.add(Calendar.DATE, 1);
         }
-
         targetTimeMillis = calendar.getTimeInMillis();
         startCountdown();
-
         Intent intent = new Intent(getContext(), CheckupReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -99,9 +88,7 @@ public class PlaceholderFragment extends Fragment {
                     return;
                 }
             }
-
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-            
             String status = String.format("Check-up scheduled for %02d:%02d daily", hour, minute);
             textStatus.setText(status);
             Toast.makeText(getContext(), status, Toast.LENGTH_SHORT).show();
@@ -112,15 +99,12 @@ public class PlaceholderFragment extends Fragment {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
-
         long currentTime = System.currentTimeMillis();
         long diff = targetTimeMillis - currentTime;
-
         if (diff <= 0) {
             textCountdown.setText("Alert pending...");
             return;
         }
-
         countDownTimer = new CountDownTimer(diff, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -129,11 +113,9 @@ public class PlaceholderFragment extends Fragment {
                 long seconds = (millisUntilFinished / 1000) % 60;
                 textCountdown.setText(String.format("Next alert in: %02d:%02d:%02d", hours, minutes, seconds));
             }
-
             @Override
             public void onFinish() {
                 textCountdown.setText("Time for check-up!");
-                // Optionally auto-reschedule the next countdown if targetTimeMillis is expected to repeat
                 targetTimeMillis += 24 * 60 * 60 * 1000;
                 startCountdown();
             }

@@ -11,7 +11,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +50,6 @@ public class FirestoreManager {
                 Exception e = task.getException() != null ? task.getException() : new Exception("Registration failed");
                 return Tasks.forException(e);
             }
-            
             AuthResult authResult = task.getResult();
             FirebaseUser user = authResult.getUser();
             if (user != null) {
@@ -78,11 +76,9 @@ public class FirestoreManager {
     public Task<Void> loadUserData() {
         String userId = getUserId();
         if (userId == null) return Tasks.forException(new Exception("User not authenticated"));
-
         CollectionReference establishmentsRef = getEstablishmentsRef();
         if (establishmentsRef == null) return Tasks.forResult(null);
         Task<QuerySnapshot> establishmentsTask = establishmentsRef.get();
-
         return establishmentsTask.continueWith(task -> {
             if (task.isSuccessful()) {
                 List<Establishment> establishments = new ArrayList<>();
@@ -102,7 +98,6 @@ public class FirestoreManager {
     public void addOrUpdateEstablishment(Establishment establishment) {
         CollectionReference ref = getEstablishmentsRef();
         if (ref == null) return;
-
         if (establishment.getId() == null) {
             List<Establishment> currentList = EstablishmentRepository.getInstance().getEstablishmentList().getValue();
             if (currentList != null) {
@@ -114,7 +109,6 @@ public class FirestoreManager {
                 }
             }
         }
-
         if (establishment.getId() == null) {
             ref.add(establishment).addOnSuccessListener(docRef -> loadUserData());
         } else {

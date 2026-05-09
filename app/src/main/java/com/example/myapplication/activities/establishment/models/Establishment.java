@@ -18,6 +18,8 @@ public class Establishment implements Serializable {
     private Map<String, String> preferredSuppliers = new HashMap<>();
     private String establishmentType;
     private String logoUri;
+    private double latitude;
+    private double longitude;
 
     public Establishment() {}
 
@@ -111,6 +113,22 @@ public class Establishment implements Serializable {
 
     public void setLogoUri(String logoUri) {
         this.logoUri = logoUri;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getInitials() {

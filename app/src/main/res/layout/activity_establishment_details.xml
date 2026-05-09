@@ -6,14 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     tools:context=".activities.establishment.EstablishmentDetailsActivity">
-
     <View
         android:id="@+id/headerBackground"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/primaryColor"
         app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/detailEstNameHeader"
         android:layout_width="wrap_content"
@@ -26,7 +24,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/headerBackground" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -34,8 +31,6 @@
         android:baselineAligned="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerBackground">
-
-        <!-- Left Pane: Logo and Initials -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -44,12 +39,10 @@
             android:orientation="vertical"
             android:padding="16dp"
             android:background="#F0F0F0">
-
             <FrameLayout
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginTop="32dp">
-
                 <ImageView
                     android:id="@+id/detailLogoImageView"
                     android:layout_width="match_parent"
@@ -58,7 +51,6 @@
                     android:background="@drawable/button_background"
                     android:visibility="gone"
                     android:contentDescription="Establishment Logo" />
-
                 <TextView
                     android:id="@+id/detailInitialsTextView"
                     android:layout_width="match_parent"
@@ -70,7 +62,6 @@
                     android:textSize="40sp"
                     android:textStyle="bold" />
             </FrameLayout>
-
             <TextView
                 android:id="@+id/detailEstNameLeft"
                 android:layout_width="wrap_content"
@@ -81,21 +72,25 @@
                 android:textColor="@color/primaryColor"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
+            <Button
+                android:id="@+id/btnSpeakDetails"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Listen"
+                android:textAllCaps="false"
+                app:icon="@android:drawable/ic_btn_speak_now" />
         </LinearLayout>
-
-        <!-- Right Pane: Details -->
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="20dp">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,14 +98,11 @@
                     android:textColor="@color/primaryColor"
                     android:textStyle="bold"
                     android:textSize="16sp" />
-
                 <TextView android:id="@+id/textType" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Type: Mall" />
                 <TextView android:id="@+id/textLocation" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Country: USA" />
                 <TextView android:id="@+id/textFloors" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Floors: 5" />
                 <TextView android:id="@+id/textTiles" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Tiles: 1200" />
-
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#DDD" android:layout_marginVertical="16dp" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -118,11 +110,8 @@
                     android:textColor="@color/primaryColor"
                     android:textStyle="bold"
                     android:textSize="16sp" />
-
                 <TextView android:id="@+id/textWeaknesses" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="None" />
-
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#DDD" android:layout_marginVertical="16dp" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -130,12 +119,24 @@
                     android:textColor="@color/primaryColor"
                     android:textStyle="bold"
                     android:textSize="16sp" />
-
                 <TextView android:id="@+id/textTileTypes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Types: Sensing" />
                 <TextView android:id="@+id/textSuppliers" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Suppliers..." />
-
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#DDD" android:layout_marginVertical="16dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location on Map"
+                    android:textColor="@color/primaryColor"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="8dp"
+                    tools:layout="@layout/activity_main" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
