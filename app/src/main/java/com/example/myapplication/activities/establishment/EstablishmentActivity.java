@@ -56,7 +56,7 @@ public class EstablishmentActivity extends AppCompatActivity implements
                 switch (position) {
                     case 0: selectedId = R.id.nav_establishments; break;
                     case 1: selectedId = R.id.nav_create; break;
-                    case 2: selectedId = R.id.nav_placeholder; break;
+                    case 2: selectedId = R.id.nav_tile_data; break;
                     case 3: selectedId = R.id.nav_profile; break;
                 }
                 if (selectedId != -1 && bottomNavigationView.getSelectedItemId() != selectedId) {
@@ -75,7 +75,7 @@ public class EstablishmentActivity extends AppCompatActivity implements
             } else if (itemId == R.id.nav_create) {
                 viewPager.setCurrentItem(1, true);
                 return true;
-            } else if (itemId == R.id.nav_placeholder) {
+            } else if (itemId == R.id.nav_tile_data) {
                 viewPager.setCurrentItem(2, true);
                 return true;
             } else if (itemId == R.id.nav_profile) {
