@@ -12,7 +12,6 @@
     <string name="full_name_hint">Full Name</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="sign_up_button_text">Sign Up</string>
-    <string name="error_passwords_dont_match">Passwords do not match</string>
     <string name="forgot_password_title">Reset Password</string>
     <string name="reset_password_instruction">Enter your email address and we\'ll send you instructions to reset your password.</string>
     <string name="send_reset_link_button">Send Reset Link</string>

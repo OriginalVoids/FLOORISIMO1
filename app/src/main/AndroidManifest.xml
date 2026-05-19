@@ -26,8 +26,6 @@
         <activity android:name=".activities.SignUpActivity" />
         <activity android:name=".activities.ForgotPasswordActivity" />
         <activity android:name=".activities.establishment.EstablishmentActivity" />
-        <activity android:name=".activities.establishment.EstablishmentDetailsActivity" />
-        <activity android:name=".activities.client.OrderTilesActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDeDgN4HoU3MnFpYq8chnouQbHdWt_1PnQ" />
