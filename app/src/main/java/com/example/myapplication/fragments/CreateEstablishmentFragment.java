@@ -30,6 +30,7 @@ import com.example.myapplication.activities.establishment.repositories.Establish
 import com.example.myapplication.utils.FirestoreManager;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
@@ -311,13 +312,19 @@ public class CreateEstablishmentFragment extends Fragment {
     }
 
     private void captureCurrentLocation() {
+        Toast.makeText(getContext(), "Capturing location...", Toast.LENGTH_SHORT).show();
         try {
-            fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
-                if (location != null) {
-                    editLatitude.setText(String.valueOf(location.getLatitude()));
-                    editLongitude.setText(String.valueOf(location.getLongitude()));
-                }
-            });
+            fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                .addOnSuccessListener(requireActivity(), location -> {
+                    if (location != null) {
+                        editLatitude.setText(String.valueOf(location.getLatitude()));
+                        editLongitude.setText(String.valueOf(location.getLongitude()));
+                        Toast.makeText(getContext(), "Location captured", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "GPS failed to get fix", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         } catch (SecurityException ignored) {}
     }
 
